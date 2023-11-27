@@ -1,0 +1,4 @@
+rootProject.name = 'mixvoice'
+include 'processor'
+include 'server'
+

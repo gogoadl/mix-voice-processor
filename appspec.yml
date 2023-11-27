@@ -1,0 +1,6 @@
+version: 0.0
+os: linux
+files:
+  - source: / #codeDeploy에서 전달해 준 파일 중 destination으로 이동시킬 대상을 지정 루트경로(/)를 지정하면 전체파일
+    destination: /home/ec2-user/app/step2/zip/
+    overwrite: yes

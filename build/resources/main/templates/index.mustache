@@ -1,0 +1,26 @@
+{{>layout/header}}
+
+        <table class="table table-horizontal table-bordered">
+            <thead class="thead-strong">
+            <tr>
+                <th style="width: 5%">번호</th>
+                <th style="width: 50%">제목</th>
+                <th style="width: 15%">작성자</th>
+                <th style="width: 15%">최종수정일</th>
+                <th style="width: 20%">카테고리</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            {{#posts}}
+                <tr>
+                    <td style="width: 5%">{{id}}</td>
+                    <td style="width: 50%"><a href="/posts/detail/{{id}}">{{title}}</a></td>
+                    <td style="width: 15%">{{author}}</td>
+                    <td style="width: 10%">{{modifiedDate}}</td>
+                    <td style="width: 15%">{{category}}</td>
+                </tr>
+            {{/posts}}
+            </tbody>
+        </table>
+
+{{>layout/footer}}
