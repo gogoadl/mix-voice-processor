@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 // material-ui
 import { Grid } from "@mui/material";
-
+import getPost from "../../../services/post";
 // project imports
 import EarningCard from "./EarningCard";
 import PopularCard from "./PopularCard";
@@ -19,7 +19,14 @@ const Dashboard = () => {
   useEffect(() => {
     setLoading(false);
   }, []);
-
+  axios
+    .get("http://localhost:9001/api/v1/posts/1")
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   return (
     <Grid container spacing={gridSpacing}>
       <Grid item xs={12}>
