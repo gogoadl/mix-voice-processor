@@ -26,15 +26,28 @@ repositories {
 }
 
 dependencies {
+    // spring
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.session:spring-session-jdbc')
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-mustache')
+
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.529'
+
+    // database
+    compile('com.h2database:h2')
+    compile('org.mariadb.jdbc:mariadb-java-client')
+
+    // lombok
     compile('org.projectlombok:lombok')
+
+    // test
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('com.h2database:h2')
-    compile('org.springframework.boot:spring-boot-starter-mustache')
-    compile('org.mariadb.jdbc:mariadb-java-client')
+
+    // file
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
 }
 
