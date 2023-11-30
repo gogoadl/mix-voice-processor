@@ -9,12 +9,19 @@ import com.hw.mixvoice.web.dto.PostsResponseDto;
 import com.hw.mixvoice.web.dto.PostsSaveRequestDto;
 import com.hw.mixvoice.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileUrlResource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.ResourceRegion;
+import org.springframework.http.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 
 @RequestMapping("/video")
@@ -23,9 +30,34 @@ import java.io.IOException;
 public class VideoController {
     private final VideoService videoService;
 
-    @GetMapping("/test")
-    public void test() throws IOException // Model - 서버 템플릿 엔진에서 사용할 수 있는 객체를 저장할 수 있다.
-    {
-        videoService.saveFile(FileUtil.getMultipartFile("D:\\GitRepository_HW\\web\\mix-voice\\backend\\server\\src\\main\\resources\\static\\test.mp4"));
+    @GetMapping("/save")
+    public void saveTest() throws IOException {
+        videoService.saveFile(FileUtil.getMultipartFile("D:\\GitRepository_HW\\web\\mix-voice\\backend\\server\\src\\main\\resources\\static\\offspring.wav"));
+    }
+    @GetMapping(path = "/downloadtest", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<ResourceRegion> downloadTest(@RequestHeader HttpHeaders httpHeaders) throws FileNotFoundException, IOException {
+        UrlResource resource = videoService.downloadFile("offspring.wav");
+
+        ResourceRegion resourceRegion;
+
+        final long chunkSize = 1000000L;
+        long contentLength = resource.contentLength();
+
+        Optional<HttpRange> optional = httpHeaders.getRange().stream().findFirst();
+        HttpRange httpRange;
+        if (optional.isPresent()) {
+            httpRange = optional.get();
+            long start = httpRange.getRangeStart(contentLength);
+            long end = httpRange.getRangeEnd(contentLength);
+            long rangeLength = Long.min(chunkSize, end - start + 1);
+            resourceRegion = new ResourceRegion(resource, start, rangeLength);
+        } else {
+            long rangeLength = Long.min(chunkSize, contentLength);
+            resourceRegion = new ResourceRegion(resource, 0, rangeLength);
+        }
+
+        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+                .contentType(MediaTypeFactory.getMediaType(resource).orElse(MediaType.APPLICATION_OCTET_STREAM))
+                .body(resourceRegion);
     }
 }

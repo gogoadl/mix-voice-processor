@@ -30,7 +30,7 @@ public class VideoService  {
         return amazonS3.getUrl(bucket, originalFilename).toString();
     }
 
-    public UrlResource downloadImage(String originalFilename) {
+    public UrlResource downloadFile(String originalFilename) {
         return new UrlResource(amazonS3.getUrl(bucket, originalFilename));
     }
 }
