@@ -1,43 +1,27 @@
 // assets
-import { IconKey } from '@tabler/icons';
+import { IconLogin } from "@tabler/icons";
 
 // constant
 const icons = {
-  IconKey
+  IconLogin,
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const pages = {
-  id: 'pages',
-  title: 'Pages',
-  caption: 'Pages Caption',
-  type: 'group',
+const myPage = {
+  id: "myPage",
+  title: "나",
+  caption: "My Pages",
+  type: "group",
   children: [
     {
-      id: 'authentication',
-      title: 'Authentication',
-      type: 'collapse',
-      icon: icons.IconKey,
-
-      children: [
-        {
-          id: 'login3',
-          title: 'Login',
-          type: 'item',
-          url: '/pages/login/login3',
-          target: true
-        },
-        {
-          id: 'register3',
-          title: 'Register',
-          type: 'item',
-          url: '/pages/register/register3',
-          target: true
-        }
-      ]
-    }
-  ]
+      id: "login",
+      title: "Login",
+      type: "item",
+      url: "/pages/login",
+      icon: icons.IconLogin,
+    },
+  ],
 };
 
-export default pages;
+export default myPage;

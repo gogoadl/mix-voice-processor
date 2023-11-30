@@ -46,10 +46,10 @@ const Login = () => {
                             gutterBottom
                             variant={matchDownSM ? "h3" : "h2"}
                           >
-                            Hi, Welcome Back
+                            로그인
                           </Typography>
                           <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? "center" : "inherit"}>
-                            Enter your credentials to continue
+                            MixVoice로 이동
                           </Typography>
                         </Stack>
                       </Grid>
@@ -65,11 +65,11 @@ const Login = () => {
                     <Grid item container direction="column" alignItems="center" xs={12}>
                       <Typography
                         component={Link}
-                        to="/pages/register/register3"
+                        to="/pages/register"
                         variant="subtitle1"
                         sx={{ textDecoration: "none" }}
                       >
-                        Don&apos;t have an account?
+                        아직 계정이 없으신가요?
                       </Typography>
                     </Grid>
                   </Grid>
