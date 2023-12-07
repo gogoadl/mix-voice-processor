@@ -34,18 +34,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.
                 httpBasic().disable()
                 .csrf().disable()
+                .formLogin().disable()
                 .headers().frameOptions().disable()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests() // URL별 권한 관리를 설정하는 옵션의 시작점입니다.
-                    .antMatchers("/token/**").permitAll()
-//                    .anyRequest().authenticated() // 나머지 url들은 모두 인증된 사용자들에게만 허용
+                    .antMatchers("/login/**","/auth/**","/oauth2/**", "/video/**").permitAll()
+                    .anyRequest().authenticated() // 나머지 url들은 모두 인증된 사용자들에게만 허용
                 .and()
                     .oauth2Login()
-                    .loginPage("/token/expired")
+                    .redirectionEndpoint()
+                    .baseUri("/login/oauth2/code/*")
+                .and()
+                    .loginPage("http://localhost:3000/pages/login")
                     .successHandler(successHandler)
-                    .userInfoEndpoint().userService(oAuth2UserService);
+                    .userInfoEndpoint()
+                    .userService(oAuth2UserService);
         httpSecurity.addFilterBefore(new JwtAuthFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
     }
 

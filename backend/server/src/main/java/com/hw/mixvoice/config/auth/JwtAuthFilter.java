@@ -28,6 +28,7 @@ public class JwtAuthFilter extends GenericFilterBean {
         String token = ((HttpServletRequest)request).getHeader("Auth");
 
         if (token != null && tokenService.verifyToken(token)) {
+            log.info("token : {}", token);
             String email = tokenService.getUid(token);
 
             // DB연동을 안했으니 이메일 정보로 유저를 만들어주겠습니다

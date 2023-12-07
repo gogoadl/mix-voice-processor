@@ -15,7 +15,8 @@ public class TokenController {
 
     @GetMapping("/token/expired")
     public String auth() {
-        throw new RuntimeException();
+        return "test";
+//        throw new RuntimeException();
     }
 
     @GetMapping("/token/refresh")

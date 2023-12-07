@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -12,11 +13,13 @@ import java.util.Base64;
 import java.util.Date;
 
 @Service
+@Slf4j
 public class TokenService{
-    private String secretKey = "token-secret-key";
+    private String secretKey = "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwMTkzNTQ1MiwiaWF0IjoxNzAxOTM1NDUyfQ.xvrvQINJHsNIxlaQ1dNZfTelV3ctkpdQ5W108iWmY0s";
 
     @PostConstruct
     protected void init() {
+        log.info("init called");
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 

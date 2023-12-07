@@ -37,7 +37,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Token token = tokenService.generateToken(userDto.getEmail(), "USER");
         log.info("{}", token);
         targetUrl = UriComponentsBuilder.fromUriString("/hello")
-                .queryParam("token", "token")
+                .queryParam("token", token)
                 .build().toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
