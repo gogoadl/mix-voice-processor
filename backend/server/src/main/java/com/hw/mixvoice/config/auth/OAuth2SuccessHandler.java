@@ -23,6 +23,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenService tokenService;
     private final UserRequestMapper userRequestMapper;
 
+    private static final String TOKEN = "token";
+    private static final String REFRESH_TOKEN = "refreshToken";
+    private static final String REDIRECT_URL = "http://localhost:3000/login/redirect";
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
@@ -36,8 +40,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         Token token = tokenService.generateToken(userDto.getEmail(), "USER");
         log.info("{}", token);
-        targetUrl = UriComponentsBuilder.fromUriString("/hello")
-                .queryParam("token", token)
+        targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URL)
+                .queryParam(TOKEN, "BEARER " + token.getToken())
+                .queryParam(REFRESH_TOKEN, "BEARER " + token.getRefreshToken())
                 .build().toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }

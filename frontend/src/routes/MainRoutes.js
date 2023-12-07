@@ -3,7 +3,7 @@ import { lazy } from "react";
 // project imports
 import MainLayout from "../layout/MainLayout";
 import Loadable from "../ui-component/Loadable";
-
+import Redirect from "../services/redirect";
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import("../views/dashboard/Default")));
 
@@ -26,6 +26,10 @@ const MainRoutes = {
     {
       path: "/",
       element: <DashboardDefault />,
+    },
+    {
+      path: "/login/redirect",
+      element: <Redirect />,
     },
     {
       path: "dashboard",

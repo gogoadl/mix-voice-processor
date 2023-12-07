@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -34,6 +34,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import Google from "../../../../assets/images/icons/social-google.svg";
+import Naver from "../../../../assets/images/icons/social-naver.png";
+
+import { GOOGLE_AUTH_URL, NAVER_AUTH_URL } from "../../../../services/constant";
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -44,10 +47,6 @@ const FirebaseLogin = ({ ...others }) => {
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
 
-  const googleHandler = async () => {
-    console.error("Login");
-  };
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -57,49 +56,52 @@ const FirebaseLogin = ({ ...others }) => {
     event.preventDefault();
   };
 
+  const LoginHandler = () => {};
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
         <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: "grey.700",
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100],
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton>
+          <Link to={GOOGLE_AUTH_URL}>
+            <AnimateButton>
+              <Button
+                disableElevation
+                fullWidth
+                size="large"
+                variant="outlined"
+                sx={{
+                  color: "grey.700",
+                  backgroundColor: theme.palette.grey[50],
+                  borderColor: theme.palette.grey[100],
+                }}
+              >
+                <Box sx={{ mr: { xs: 1, sm: 2, width: 36 } }}>
+                  <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
+                </Box>
+                Sign in with Google
+              </Button>
+            </AnimateButton>
+          </Link>
           <br></br>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: "grey.700",
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100],
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              Sign in with Naver
-            </Button>
-          </AnimateButton>
+          <Link to={NAVER_AUTH_URL}>
+            <AnimateButton>
+              <Button
+                disableElevation
+                fullWidth
+                size="large"
+                variant="outlined"
+                sx={{
+                  color: "grey.700",
+                  backgroundColor: theme.palette.grey[50],
+                  borderColor: theme.palette.grey[100],
+                }}
+              >
+                <Box sx={{ mr: { xs: 1, sm: 2, width: 36 } }}>
+                  <img src={Naver} alt="naver" width={24} height={24} style={{ marginRight: matchDownSM ? 16 : 32 }} />
+                </Box>
+                Sign in with Naver
+              </Button>
+            </AnimateButton>
+          </Link>
         </Grid>
         <Grid item xs={12}>
           <Box
@@ -152,6 +154,7 @@ const FirebaseLogin = ({ ...others }) => {
           try {
             if (scriptedRef.current) {
               setStatus({ success: true });
+              console.log(values.email);
               setSubmitting(false);
             }
           } catch (err) {

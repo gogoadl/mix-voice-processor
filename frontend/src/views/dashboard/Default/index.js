@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../../services/index";
 // material-ui
 import { Grid } from "@mui/material";
 import getPost from "../../../services/post";

@@ -49,16 +49,20 @@ public class TokenService{
 
 
     public boolean verifyToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token);
-            return claims.getBody()
-                    .getExpiration()
-                    .after(new Date());
-        } catch (Exception e) {
-            return false;
+        if (token.startsWith("BEARER")) {
+            token = token.split(" ")[1];
+            try {
+                Jws<Claims> claims = Jwts.parser()
+                        .setSigningKey(secretKey)
+                        .parseClaimsJws(token);
+                return claims.getBody()
+                        .getExpiration()
+                        .after(new Date());
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return false;
     }
 
 
