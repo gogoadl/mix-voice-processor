@@ -1,0 +1,17 @@
+dialect:
+  MYSQL5InnoDBDialect: ''
+spring:
+  h2:
+    console:
+      enabled: 'true'
+  jpa:
+    show_sql: 'true'
+  session:
+    store-type: jdbc
+  profiles:
+    include: oauth,private
+server:
+  port: '9001'
+logging:
+  level:
+    root: debug
