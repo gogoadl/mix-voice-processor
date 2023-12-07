@@ -1,6 +1,8 @@
 package com.hw.mixvoice.config.auth;
 
 
+import com.hw.mixvoice.domain.user.Role;
+import com.hw.mixvoice.domain.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -80,5 +82,19 @@ public class OAuth2Attribute {
         map.put("picture", picture);
 
         return map;
+    }
+
+    public User toEntity()
+    {
+        // User Entity를 생성
+        // OAuthAttributes 에서 엔티티를 생성하는 시점은 처음 가입할 때
+        // 가입할 때 기본 권한을 GUEST로 주기 위해서 role 빌더값에는 role.GUEST를 사용
+        // OAuthAttributes 클래스 생성이 끝났으면 같은 패키지에 SessionUser 클래스를 생성
+        return User.builder()
+                .name(name)
+                .email(email)
+                .picture(picture)
+                .role(Role.GUEST)
+                .build();
     }
 }

@@ -4,6 +4,7 @@ import com.hw.mixvoice.config.auth.CustomOAuth2UserService;
 import com.hw.mixvoice.config.auth.JwtAuthFilter;
 import com.hw.mixvoice.config.auth.OAuth2SuccessHandler;
 import com.hw.mixvoice.config.auth.TokenService;
+import com.hw.mixvoice.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
     private final TokenService tokenService;
-
+    private final UserRepository userRepository;
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.cors().configurationSource(request -> {
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests() // URL별 권한 관리를 설정하는 옵션의 시작점입니다.
-                    .antMatchers("/login/**","/auth/**","/oauth2/**", "/video/**").permitAll()
+                    .antMatchers("/login/**","/auth/**","/oauth2/**", "/video/**", "/h2-console/**").permitAll()
                     .anyRequest().authenticated() // 나머지 url들은 모두 인증된 사용자들에게만 허용
                 .and()
                     .oauth2Login()
@@ -51,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .successHandler(successHandler)
                     .userInfoEndpoint()
                     .userService(oAuth2UserService);
-        httpSecurity.addFilterBefore(new JwtAuthFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new JwtAuthFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
 }

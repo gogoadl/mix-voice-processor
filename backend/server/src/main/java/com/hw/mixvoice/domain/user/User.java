@@ -1,5 +1,6 @@
 package com.hw.mixvoice.domain.user;
 
+import com.hw.mixvoice.config.auth.dto.UserDto;
 import com.hw.mixvoice.domain.posts.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,4 +55,11 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
+    public static UserDto toDto(User entity) {
+        return UserDto.builder()
+                .email(entity.getEmail())
+                .name(entity.getName())
+                .picture(entity.getPicture())
+                .build();
+    }
 }
