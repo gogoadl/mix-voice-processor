@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "../../../services/index";
+import { store } from "../../../store/index";
+import { LOGIN_USER, LOGOUT_USER } from "../../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 // material-ui
 import { Grid } from "@mui/material";
 import getPost from "../../../services/post";
@@ -17,6 +20,7 @@ import { gridSpacing } from "../../../store/constant";
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
   const [src, setSrc] = useState();
+  const dispatch = useDispatch();
   useEffect(() => {
     setLoading(false);
     axios
@@ -34,12 +38,16 @@ const Dashboard = () => {
         .get("http://localhost:9001/user/me")
         .then((response) => {
           console.log(response.data);
+          dispatch({ type: LOGIN_USER, data: response.data });
         })
         .catch((error) => {
           console.log(error);
         });
     }
   }, []);
+
+  const userInfo = useSelector((state) => state.user.userInfo);
+  console.log(userInfo);
 
   return (
     <Grid container spacing={gridSpacing}>

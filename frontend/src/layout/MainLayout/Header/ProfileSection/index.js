@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { store } from "../../../../store/index";
+import { LOGIN_USER, LOGOUT_USER } from "../../../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -44,6 +46,7 @@ import { IconLogout, IconSearch, IconSettings, IconUser } from "@tabler/icons";
 const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [sdm, setSdm] = useState(true);
@@ -51,13 +54,16 @@ const ProfileSection = () => {
   const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
-  const [login, setLogin] = useState(false);
+
+  const userInfo = useSelector((state) => state.user.userInfo);
+
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     console.log("Logout");
+    dispatch({ type: LOGOUT_USER });
   };
 
   const handleClose = (event) => {
@@ -87,7 +93,7 @@ const ProfileSection = () => {
 
     prevOpen.current = open;
   }, [open]);
-  if (login) {
+  if (userInfo.name) {
     return (
       <Chip
         sx={{
@@ -111,7 +117,7 @@ const ProfileSection = () => {
         }}
         icon={
           <Avatar
-            src={User1}
+            src={userInfo.picture}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: "8px 0 8px 8px !important",
@@ -120,6 +126,7 @@ const ProfileSection = () => {
             ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
             aria-haspopup="true"
+            referrerPolicy="no-referrer"
             color="inherit"
           />
         }
@@ -128,7 +135,7 @@ const ProfileSection = () => {
         ref={anchorRef}
         aria-controls={open ? "menu-list-grow" : undefined}
         aria-haspopup="true"
-        onClick={handleToggle}
+        onClick={handleLogout}
         color="primary"
       />
     );
