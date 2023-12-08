@@ -7,8 +7,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
@@ -60,7 +62,12 @@ public class TokenService{
             return false;
         }
     }
-
+    public String getJwtFromRequest(String token) {
+        if (StringUtils.hasText(token) && token.startsWith("BEARER ")) {
+            return token.substring(7, token.length());
+        }
+        return null;
+    }
 
     public String getUid(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();

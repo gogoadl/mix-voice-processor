@@ -28,6 +28,17 @@ const Dashboard = () => {
       .catch((error) => {
         console.log(error);
       });
+    console.log(localStorage.getItem("token"));
+    if (localStorage.getItem("token")) {
+      axios
+        .get("http://localhost:9001/user/me")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, []);
 
   return (
