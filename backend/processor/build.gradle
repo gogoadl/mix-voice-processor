@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'net.bramp.ffmpeg', name: 'ffmpeg', version: '0.1'
+    implementation group: 'net.bramp.ffmpeg', name: 'ffmpeg', version: '0.6.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.1'
