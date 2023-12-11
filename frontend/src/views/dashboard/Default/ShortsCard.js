@@ -21,7 +21,7 @@ import BajajAreaChartCard from "./BajajAreaChartCard";
 import MainCard from "../../../ui-component/cards/MainCard";
 import SkeletonPopularCard from "../../../ui-component/cards/Skeleton/PopularCard";
 import { gridSpacing } from "../../../store/constant";
-
+import VideoPlayer from "../../../utils/VideoPlayer";
 // assets
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
@@ -64,7 +64,7 @@ const ShortsCard = ({ isLoading, url }) => {
               <Grid item xs={12} sx={{ pt: "16px !important" }}></Grid>
               <Grid item xs={12}>
                 <Grid container direction="column">
-                  <CardMedia component="audio" src="http://localhost:9001/video/downloadtest" autoPlay />
+                  <VideoPlayer src={url} type="m3u8" />
                 </Grid>
               </Grid>
             </Grid>

@@ -24,15 +24,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     setLoading(false);
-    axios
-      .get("http://localhost:9001/video/downloadtest")
-      .then((response) => {
-        console.log(response.data);
-        setSrc(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
     console.log(localStorage.getItem("token"));
     if (localStorage.getItem("token")) {
       axios
@@ -53,7 +45,10 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={12}>
-            <ShortsCard isLoading={isLoading} url={src} />
+            <ShortsCard
+              isLoading={isLoading}
+              url="https://djaikjbosji2f.cloudfront.net/ts/KakaoTalk_20230301_205552507.m3u8"
+            />
           </Grid>
         </Grid>
       </Grid>
