@@ -4,9 +4,10 @@ import { lazy } from "react";
 import MainLayout from "../layout/MainLayout";
 import Loadable from "../ui-component/Loadable";
 import Redirect from "../services/redirect";
+
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import("../views/dashboard/Default")));
-
+const Upload = Loadable(lazy(() => import("../views/pages/upload/Upload")));
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import("../views/utilities/Typography")));
 const UtilsColor = Loadable(lazy(() => import("../views/utilities/Color")));
@@ -39,6 +40,10 @@ const MainRoutes = {
           element: <DashboardDefault />,
         },
       ],
+    },
+    {
+      path: "upload",
+      element: <Upload />,
     },
     {
       path: "utils",
