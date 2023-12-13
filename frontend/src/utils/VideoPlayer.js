@@ -1,5 +1,12 @@
 import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
 import Hls from "hls.js";
+
+const VideoAspectRatio = styled.video`
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  border-radius: 20px;
+`;
 
 const VideoPlayer = ({ src, type }) => {
   const videoRef = useRef();
@@ -13,7 +20,7 @@ const VideoPlayer = ({ src, type }) => {
     }
   }, [src, type]);
 
-  return type === "m3u8" ? <video ref={videoRef} controls /> : <video ref={videoRef} src={src} controls />;
+  return type === "m3u8" ? <VideoAspectRatio ref={videoRef} controls /> : <video ref={videoRef} src={src} controls />;
 };
 
 export default VideoPlayer;

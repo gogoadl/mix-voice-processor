@@ -61,10 +61,11 @@ const ShortsCard = ({ isLoading, url }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sx={{ pt: "16px !important" }}></Grid>
               <Grid item xs={12}>
-                <Grid container direction="column">
-                  <VideoPlayer src={url} type="m3u8" />
+                <Grid container justifyContent="center" alignItems="center">
+                  <Grid item xs={4}>
+                    <VideoPlayer src={url} type="m3u8" />
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
