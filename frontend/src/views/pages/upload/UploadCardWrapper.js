@@ -11,7 +11,7 @@ import MainCard from "../../../ui-component/cards/MainCard";
 const UploadCardWrapper = ({ children, ...other }) => (
   <MainCard
     sx={{
-      maxWidth: { xs: 600, lg: 475 },
+      maxWidth: { xs: 600, lg: 800 },
       margin: { xs: 2.5, md: 3 },
       "& > *": {
         flexGrow: 1,
