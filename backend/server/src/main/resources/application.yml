@@ -10,8 +10,12 @@ spring:
     store-type: jdbc
   profiles:
     include: oauth,private
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
 server:
   port: '9001'
 logging:
   level:
-    root: debug
+    root: info
