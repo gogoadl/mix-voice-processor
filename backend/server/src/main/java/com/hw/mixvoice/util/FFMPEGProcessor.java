@@ -20,12 +20,13 @@ public class FFMPEGProcessor {
         ffprobe = new FFprobe("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffprobe");
     }
 
-    public String videoHlsMake(String filePath) throws IOException {
+    public void videoHlsMake(String filePath) throws IOException {
         String m3u8Path = filePath + ".m3u8";
+        String thumbnailPath = filePath + ".png";
         FFmpegBuilder builder = new FFmpegBuilder()
                 //.overrideOutputFiles(true) // 오버라이드 여부
                 .setInput(filePath) // 동영상파일
-                .addOutput(m3u8Path) // 썸네일 경로
+                .addOutput(m3u8Path)
                 .addExtraArgs("-profile:v", "baseline") //
                 .addExtraArgs("-level", "3.0") //
                 .addExtraArgs("-start_number", "0") //
@@ -35,20 +36,17 @@ public class FFMPEGProcessor {
                 .done();
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
-        return m3u8Path;
+
+        FFmpegBuilder builderThumbNail = new FFmpegBuilder()
+                .overrideOutputFiles(true) // 오버라이드 여부
+                .setInput(filePath) // 동영상파일
+                .addExtraArgs("-ss", "00:00:03") // 썸네일 추출 시작점
+                .addOutput(thumbnailPath) // 썸네일 경로
+                .setFrames(1) // 프레임 수
+                .done();
+        FFmpegExecutor executorThumbNail = new FFmpegExecutor(ffmpeg, ffprobe);
+        executorThumbNail.createJob(builderThumbNail).run();
     }
-//    public void videoThumbnailMake() throws IOException {
-//        // 이미지 파일 생성
-//        FFmpegBuilder builderThumbNail = new FFmpegBuilder()
-//                .overrideOutputFiles(true) // 오버라이드 여부
-//                .setInput(filePath + fileName + fileExtension) // 동영상파일
-//                .addExtraArgs("-ss", "00:00:03") // 썸네일 추출 시작점
-//                .addOutput(filePath + UPLOAD_DIR + "\\" + fileName + ".png") // 썸네일 경로
-//                .setFrames(1) // 프레임 수
-//                .done();
-//        FFmpegExecutor executorThumbNail = new FFmpegExecutor(ffmpeg, ffprobe);
-//        executorThumbNail.createJob(builderThumbNail).run();
-//    }
 
     public void encode() throws IOException {
         FFmpeg ffmpeg = new FFmpeg("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffmpeg");

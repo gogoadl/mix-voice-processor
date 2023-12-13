@@ -52,7 +52,7 @@ public class VideoService  {
         String tempFilePath = path + fileRandomName;
         file.transferTo(new File(tempFilePath));
         // 2. HLS 비디오로 변환
-        String m3u8Path = ffmpegProcessor.videoHlsMake(tempFilePath);
+        ffmpegProcessor.videoHlsMake(tempFilePath);
 
         // 3. 파일명 및 메타데이터 DB 저장 (저장 후 쇼츠 액세스 시 파일명과 cloudfront 주소 전달)
 
