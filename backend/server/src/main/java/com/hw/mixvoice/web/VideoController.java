@@ -4,19 +4,17 @@ import com.hw.mixvoice.service.VideoService;
 import com.hw.mixvoice.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.http.*;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Optional;
 
 
 @RequestMapping("/video")
@@ -25,7 +23,6 @@ import java.util.Optional;
 @Slf4j
 public class VideoController {
     private final VideoService videoService;
-
     @GetMapping("/test/save")
     public void saveTest() throws IOException {
         videoService.saveFile(FileUtil.getMultipartFile("D:\\GitRepository_HW\\web\\mix-voice\\backend\\server\\src\\main\\resources\\static\\offspring.wav"));
@@ -39,6 +36,14 @@ public class VideoController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-mpegURL"))
                 .body(resource2);
+    }
+
+    @PostMapping("upload")
+    public ResponseEntity uploadVideo(MultipartFile file, HttpServletRequest request) throws IOException {
+        log.info("video received {}", file.getOriginalFilename());
+
+        videoService.uploadVideo(file, request.getServletContext().getRealPath("/"));
+        return ResponseEntity.ok().build();
     }
 
 }
