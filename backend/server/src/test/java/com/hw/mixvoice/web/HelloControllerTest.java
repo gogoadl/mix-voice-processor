@@ -1,6 +1,6 @@
 package com.hw.mixvoice.web;
 
-import com.hw.mixvoice.config.auth.SecurityConfig;
+import com.hw.mixvoice.config.SecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
