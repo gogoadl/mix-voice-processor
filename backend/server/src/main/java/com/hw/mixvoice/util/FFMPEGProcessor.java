@@ -19,8 +19,7 @@ public class FFMPEGProcessor {
         ffmpeg = new FFmpeg("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffmpeg");
         ffprobe = new FFprobe("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffprobe");
     }
-    public static final String UPLOAD_DIR = "\\video";
-    public static final String TS_PATH = "\\ts";
+
     public String videoHlsMake(String filePath) throws IOException {
         String m3u8Path = filePath + ".m3u8";
         FFmpegBuilder builder = new FFmpegBuilder()
