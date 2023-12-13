@@ -3,9 +3,14 @@ package com.hw.mixvoice.domain.shorts;
 import com.hw.mixvoice.domain.posts.BaseTimeEntity;
 import com.hw.mixvoice.domain.user.User;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
+@NoArgsConstructor
+@Entity
 public class Shorts extends BaseTimeEntity {
 
     @Id
