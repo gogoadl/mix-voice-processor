@@ -46,7 +46,7 @@ public class VideoService  {
         return new UrlResource(amazonS3.getUrl(bucket, originalFilename));
     }
 
-    public void uploadVideo(MultipartFile file, String path) throws IOException {
+    public String uploadVideo(MultipartFile file, String path) throws IOException {
         // 1. 영상 임시 저장 (FFMPEG Java Wrapper Library에서 Stream 타입의 영상을 지원하지 않음)
         String fileRandomName = UUID.randomUUID().toString();
         String tempFilePath = path + fileRandomName;
@@ -63,11 +63,13 @@ public class VideoService  {
                 .filter(Files::isRegularFile)
                 .forEach((f) -> {
             String name = f.getFileName().toString();
-            if (name.endsWith(".ts") || name.endsWith(".m3u8"))
+            if (name.endsWith(".ts") || name.endsWith(".m3u8") || name.endsWith(".png"))
                 amazonS3.putObject(bucket, fileRandomName + "/" + f.getFileName().toString(), f.toFile());
         });
         // 5. Temp 폴더의 파일 제거
+        Files.delete(Paths.get(tempFilePath));
 
         // 6. 성공 또는 오류 처리
+        return fileRandomName + "/" + fileRandomName + ".png";
     }
 }
