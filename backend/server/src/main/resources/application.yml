@@ -1,13 +1,22 @@
-dialect:
-  MYSQL5InnoDBDialect: ''
 spring:
-  h2:
-    console:
-      enabled: 'true'
+#  h2:
+#    console:
+#      enabled: 'true'
+  datasource:
+    url: jdbc:mysql://localhost:3306/mixvoice?serverTimezone=UTC
+    username: ssafy
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    show_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
   session:
     store-type: jdbc
+#    jdbc:
+#      initialize-schema: always
   profiles:
     include: oauth,private
   servlet:
@@ -19,3 +28,7 @@ server:
 logging:
   level:
     root: info
+    org:
+      hibernate:
+        SQL: debug
+        type: trace #스프링 부트 2.x, hibernate5
