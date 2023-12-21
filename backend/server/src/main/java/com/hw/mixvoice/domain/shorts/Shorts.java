@@ -28,16 +28,20 @@ public class Shorts extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String category;
 
+    @Column(length = 500, nullable = false)
+    private String url;
+
     private Long viewCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     @Builder
-    public Shorts(String title, String content, String category)
+    public Shorts(String title, String content, String url, String category)
     {
         this.title = title;
         this.content = content;
+        this.url = url;
         this.category = category;
     }
 

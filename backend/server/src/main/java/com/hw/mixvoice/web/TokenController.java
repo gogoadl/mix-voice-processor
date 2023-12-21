@@ -21,7 +21,7 @@ public class TokenController {
 
     @GetMapping("/token/refresh")
     public String refreshAuth(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Refresh");
+        String token = request.getHeader("token");
 
         if (token != null && tokenService.verifyToken(token)) {
             String email = tokenService.getUid(token);

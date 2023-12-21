@@ -27,7 +27,7 @@ server:
   port: '9001'
 logging:
   level:
-    root: info
+    root: debug
     org:
       hibernate:
         SQL: debug

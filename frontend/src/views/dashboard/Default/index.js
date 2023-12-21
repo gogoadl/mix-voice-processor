@@ -47,7 +47,7 @@ const Dashboard = () => {
           <Grid item xs={12} md={12}>
             <ShortsCard
               isLoading={isLoading}
-              url="https://djaikjbosji2f.cloudfront.net/ts/KakaoTalk_20230301_205552507.m3u8"
+              url="https://djaikjbosji2f.cloudfront.net/99671416-0a52-4d72-aa3f-f821b09c013e/99671416-0a52-4d72-aa3f-f821b09c013e.m3u8"
             />
           </Grid>
         </Grid>

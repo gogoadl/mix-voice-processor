@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "../../../services/index";
+import instance from "../../../services/index";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import {
@@ -35,11 +35,18 @@ const Upload = () => {
     console.log("cancel");
   };
   const uploadShorts = () => {
-    axios.post("http://localhost:9001/shorts/upload", {
-      title: title,
-      content: content,
-      path: uploadedPath,
-    });
+    instance
+      .post("http://localhost:9001/shorts/upload", {
+        title: title,
+        content: content,
+        path: uploadedPath,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     console.log("upload");
   };
   return (

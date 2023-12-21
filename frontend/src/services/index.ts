@@ -15,6 +15,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     // 요청 오류가 있는 작업 수행
+    console.log("error" + error);
     return Promise.reject(error);
   }
 );
@@ -28,16 +29,16 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const { response, config } = error;
-
-    if (response.status == 401) {
-      const { data } = await axios.get("", {
-        baseURL: "localhost:9001/",
+    console.log(response);
+    if (response.status === 401) {
+      const { data } = await axios.get("http://localhost:9001/token/refresh", {
         params: {
           token: localStorage.getItem("refreshToken"),
         },
       });
-
+      console.log(localStorage.getItem("refreshToken"));
       const { token } = data;
+      console.log(data);
       localStorage.setItem("token", token);
       config.headers["Authorization"] = token;
 
