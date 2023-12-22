@@ -12,18 +12,16 @@ public class ShortsSaveDto {
     private String title;
     private String content;
     private String url;
-    private String category;
 
     @Builder
-    public ShortsSaveDto(String title, String content, String url, String category)
+    public ShortsSaveDto(String title, String content, String url)
     {
         this.title = title;
         this.content = content;
         this.url = url;
-        this.category = category;
     }
 
     public Shorts toEntity() {
-        return Shorts.builder().title(title).content(content).url(url).category(category).build();
+        return Shorts.builder().title(title).content(content).url(url).build();
     }
 }
