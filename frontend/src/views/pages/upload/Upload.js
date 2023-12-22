@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import instance from "../../../services/index";
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -27,6 +27,7 @@ const Upload = () => {
   const [uploadedPath, setUploadedPath] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
   const handleUploadChange = (path) => {
     setUploadedPath(path);
   };
@@ -42,6 +43,7 @@ const Upload = () => {
         path: uploadedPath,
       })
       .then((response) => {
+        navigate("/");
         console.log(response);
       })
       .catch((error) => {
