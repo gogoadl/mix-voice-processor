@@ -29,8 +29,9 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const { response, config } = error;
-    console.log(response);
+    console.log(response.status);
     if (response.status === 401) {
+      console.log("token expired");
       const { data } = await axios.get("http://localhost:9001/token/refresh", {
         params: {
           token: localStorage.getItem("refreshToken"),

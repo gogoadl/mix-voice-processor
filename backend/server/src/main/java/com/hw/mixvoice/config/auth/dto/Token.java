@@ -15,4 +15,8 @@ public class Token {
         this.token = token;
         this.refreshToken = refreshToken;
     }
+    public void addPrefix() {
+        token = "BEARER " + token;
+        refreshToken = "BEARER " + refreshToken;
+    }
 }
