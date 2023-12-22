@@ -38,9 +38,10 @@ instance.interceptors.response.use(
         },
       });
       console.log(localStorage.getItem("refreshToken"));
-      const { token } = data;
+      const { token, refreshToken } = data;
       console.log(data);
       localStorage.setItem("token", token);
+      localStorage.setItem("refreshToken", refreshToken);
       config.headers["Authorization"] = token;
 
       return await axios(config);
