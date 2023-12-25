@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeRequests() // URL별 권한 관리를 설정하는 옵션의 시작점입니다.
-                    .antMatchers("/login/**","/auth/**","/oauth2/**", "/video/**", "/h2-console/**", "/token/**").permitAll()
+                    .antMatchers("/login/**","/auth/**","/oauth2/**", "/shorts/**", "/h2-console/**", "/token/**").permitAll()
                     .anyRequest().authenticated() // 나머지 url들은 모두 인증된 사용자들에게만 허용
                 .and()
                     .oauth2Login()
