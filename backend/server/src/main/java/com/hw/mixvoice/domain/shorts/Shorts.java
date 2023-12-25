@@ -22,14 +22,11 @@ public class Shorts extends BaseTimeEntity {
     @Column(length = 500, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String author;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String category;
+    @Column(length = 500, nullable = false)
+    private String url;
 
     private Long viewCount;
 
@@ -37,12 +34,11 @@ public class Shorts extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
     @Builder
-    public Shorts(String title, String content, String author, String category)
+    public Shorts(String title, String content, String url)
     {
         this.title = title;
         this.content = content;
-        this.author = author;
-        this.category = category;
+        this.url = url;
     }
 
     @Builder

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ShortsRepository extends JpaRepository<Shorts, Long> {
 
-    @Query(value = "SELECT s FROM Shorts s  order by RAND() limit 1",nativeQuery = true)
+    @Query(value = "SELECT * FROM Shorts s order by RAND() limit 1",nativeQuery = true)
     Optional<Shorts> findRandomShorts();
 }

@@ -37,7 +37,7 @@ const Container = styled.div`
   transition: border 0.24s ease-in-out;
 `;
 
-const StyledDropzone = (props) => {
+const StyledDropzone = (changeValue) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const onDrop = useCallback((acceptedFiles) => {
@@ -56,23 +56,7 @@ const StyledDropzone = (props) => {
       .post("http://localhost:9001/video/upload", formData, config)
       .then((response) => {
         console.log(response);
-        // let variable = {
-        //   filePath: res.data.filePath,
-        //   fileName: res.data.fileName,
-        // };
-        // setFilePath(res.data.filePath);
-
-        // axios.post("/api/video/thumbnail", variable).then((res) => {
-        //   if (res.data.success) {
-        //     setThumbnailPath(res.data.thumbsFilePath);
-        //     setDuration(res.data.fileDuration);
-        //   } else {
-        //     alert("Failed to make the thumbnails");
-        //   }
-        // });
-        //   } else {
-        //     alert("failed to save the video in server");
-        //   }
+        changeValue("path");
       })
       .catch((e) => {
         console.log(e);

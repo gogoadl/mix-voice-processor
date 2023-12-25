@@ -38,12 +38,12 @@ public class VideoController {
                 .body(resource2);
     }
 
-    @PostMapping("upload")
+    @PostMapping("/upload")
     public ResponseEntity uploadVideo(MultipartFile file, HttpServletRequest request) throws IOException {
         log.info("video received {}", file.getOriginalFilename());
 
-        videoService.uploadVideo(file, request.getServletContext().getRealPath("/"));
-        return ResponseEntity.ok().build();
+        String savePath = videoService.uploadVideo(file, request.getServletContext().getRealPath("/"));
+        return ResponseEntity.ok().body(savePath);
     }
 
 }

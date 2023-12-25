@@ -5,6 +5,8 @@ import com.hw.mixvoice.domain.user.User;
 import com.hw.mixvoice.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
+import org.modelmapper.spi.ErrorMessage;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
@@ -33,31 +36,40 @@ public class JwtAuthFilter extends GenericFilterBean {
         log.info("token : {}", token);
 
         if (token != null) {
-            if (token.startsWith("BEARER"))
+            if (token.startsWith("BEARER")) {
                 token = token.split(" ")[1];
 
-            if (tokenService.verifyToken(token)) {
+                if (tokenService.verifyToken(token)) {
 
-                log.info("token : {}", token);
-                String email = tokenService.getUid(token);
-                Optional<User> user = userRepository.findByEmail(email);
-                if (user.isPresent()) { // 회원가입된 사람
-                    UserDto userDto = User.toDto(user.get());
-                    Authentication auth = getAuthentication(userDto);
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    log.info("token : {}", token);
+                    String email = tokenService.getUid(token);
+                    Optional<User> user = userRepository.findByEmail(email);
+                    if (user.isPresent()) { // 회원가입된 사람
+                        UserDto userDto = User.toDto(user.get());
+                        Authentication auth = getAuthentication(userDto);
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    }
+                    else { // 회원가입 로직
+
+                    }
+                } else { // 토큰값이 유효하지 않음
+                    log.info("token expired : {}", token);
+                    setResponse((HttpServletResponse) response, new ErrorMessage("Token Expired"));
+                    return;
                 }
-                else { // 회원가입 로직
-
-                }
-
             }
         }
-
         chain.doFilter(request, response);
     }
 
     public Authentication getAuthentication(UserDto member) {
         return new UsernamePasswordAuthenticationToken(member, "",
                 Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+    }
+
+    private void setResponse(HttpServletResponse response, ErrorMessage errorMessage) throws RuntimeException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+        response.getWriter().write(errorMessage.getMessage());
     }
 }

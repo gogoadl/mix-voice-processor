@@ -2,7 +2,10 @@ package com.hw.mixvoice.web;
 import com.hw.mixvoice.config.auth.TokenService;
 import com.hw.mixvoice.config.auth.dto.Token;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,18 +23,14 @@ public class TokenController {
     }
 
     @GetMapping("/token/refresh")
-    public String refreshAuth(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Refresh");
-
+    public ResponseEntity refreshAuth(@RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+        token = tokenService.getJwtFromRequest(token);
         if (token != null && tokenService.verifyToken(token)) {
             String email = tokenService.getUid(token);
             Token newToken = tokenService.generateToken(email, "USER");
+            newToken.addPrefix();
 
-            response.addHeader("Auth", newToken.getToken());
-            response.addHeader("Refresh", newToken.getRefreshToken());
-            response.setContentType("application/json;charset=UTF-8");
-
-            return "HAPPY NEW TOKEN";
+            return ResponseEntity.ok().body(newToken);
         }
 
         throw new RuntimeException();
