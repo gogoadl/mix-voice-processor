@@ -42,9 +42,12 @@ public class FFMPEGProcessor {
                 .addExtraArgs("-master_pl_name", "master.m3u8") // 마스터 재생 파일
 
                 .addExtraArgs("-map", "0:v")
+                .addExtraArgs("-map", "0:a")
                 .addExtraArgs("-map", "0:v")
+                .addExtraArgs("-map", "0:a")
                 .addExtraArgs("-map", "0:v")
-                .addExtraArgs("-var_stream_map", "v:0,name:1080 v:1,name:720 v:2,name:480") // 출력 매핑
+                .addExtraArgs("-map", "0:a")
+                .addExtraArgs("-var_stream_map", "v:0,a:0,name:1080 v:1,a:1,name:720 v:2,a:2,name:480") // 출력 매핑
 
                 // 1080 화질 옵션
                 .addExtraArgs("-b:v:0", "5000k")
