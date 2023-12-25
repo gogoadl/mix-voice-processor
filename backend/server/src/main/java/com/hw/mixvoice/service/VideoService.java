@@ -70,7 +70,7 @@ public class VideoService  {
         Files.delete(Paths.get(tempFilePath));
 
         // 6. 성공 또는 오류 처리
-        return fileRandomName + "/" + fileRandomName + ".png";
+        return fileRandomName;
     }
 
     // 임시 저장된 쇼츠 영상을 삭제
