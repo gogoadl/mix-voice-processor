@@ -26,28 +26,19 @@ public class FFMPEGProcessor {
     }
 
     public void videoHlsMake(String filePath, String fileName) throws IOException {
-        String m3u8Path = filePath + ".m3u8";
-        String thumbnailPath = filePath + ".png";
-
-        File _1080 = new File(filePath, "1080");
-        File _720 = new File(filePath, "720");
-        File _480 = new File(filePath, "480");
-
-        if (!_1080.exists()) _1080.mkdirs();
-        if (!_720.exists()) _720.mkdirs();
-        if (!_480.exists()) _480.mkdirs();
+        String thumbnailPath = filePath + "thumbnail.png";
 
         FFmpegBuilder builder = new FFmpegBuilder()
                 //.overrideOutputFiles(true) // 오버라이드 여부
                 .setInput(filePath+fileName) // 동영상파일
-                .addOutput(filePath+"/%v/playlist.m3u8")
+                .addOutput(filePath+"/%vplaylist.m3u8")
 //                .addExtraArgs("-profile:v", "baseline") //
 //                .addExtraArgs("-level", "3.0") //
                 .addExtraArgs("-start_number", "0") //
                 .addExtraArgs("-hls_time", "10") //
                 .addExtraArgs("-hls_list_size", "0") //
                 .addExtraArgs("-f", "hls") //
-                .addExtraArgs("-hls_segment_filename", filePath + "/%v/output_%03d.ts") // ts 파일 이름 (ex: output_000.ts)
+                .addExtraArgs("-hls_segment_filename", filePath + "/%voutput_%03d.ts") // ts 파일 이름 (ex: output_000.ts)
                 .addExtraArgs("-master_pl_name", "master.m3u8") // 마스터 재생 파일
 
                 .addExtraArgs("-map", "0:v")
@@ -59,7 +50,7 @@ public class FFMPEGProcessor {
                 .addExtraArgs("-b:v:0", "5000k")
                 .addExtraArgs("-maxrate:v:0", "5000k")
                 .addExtraArgs("-bufsize:v:0", "10000k")
-                .addExtraArgs("-s:v:0", "1920x1080")
+                .addExtraArgs("-s:v:0", "1080x1920")
                 .addExtraArgs("-crf:v:0", "15")
                 .addExtraArgs("-b:a:0", "128k")
 
@@ -67,7 +58,7 @@ public class FFMPEGProcessor {
                 .addExtraArgs("-b:v:1", "2500k")
                 .addExtraArgs("-maxrate:v:1", "2500k")
                 .addExtraArgs("-bufsize:v:1", "5000k")
-                .addExtraArgs("-s:v:1", "1280x720")
+                .addExtraArgs("-s:v:1", "720x1280")
                 .addExtraArgs("-crf:v:1", "22")
                 .addExtraArgs("-b:a:1", "96k")
 
@@ -75,7 +66,7 @@ public class FFMPEGProcessor {
                 .addExtraArgs("-b:v:2", "1000k")
                 .addExtraArgs("-maxrate:v:2", "1000k")
                 .addExtraArgs("-bufsize:v:2", "2000k")
-                .addExtraArgs("-s:v:2", "854x480")
+                .addExtraArgs("-s:v:2", "480x854")
                 .addExtraArgs("-crf:v:2", "28")
                 .addExtraArgs("-b:a:2", "64k")
                 .done();
