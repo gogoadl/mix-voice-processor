@@ -5,6 +5,7 @@ import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.builder.FFmpegOutputBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,9 +16,12 @@ import java.io.IOException;
 public class FFMPEGProcessor {
     FFmpeg ffmpeg;
     FFprobe ffprobe;
-    public FFMPEGProcessor() throws IOException {
-        ffmpeg = new FFmpeg("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffmpeg");
-        ffprobe = new FFprobe("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffprobe");
+    public FFMPEGProcessor(
+            @Value("${video.path.ffmpeg}") String ffmpegPath,
+            @Value("${video.path.ffprobe}") String ffprobePath
+    ) throws IOException {
+        ffmpeg = new FFmpeg(ffmpegPath);
+        ffprobe = new FFprobe(ffprobePath);
     }
 
     public void videoHlsMake(String filePath) throws IOException {
@@ -46,27 +50,5 @@ public class FFMPEGProcessor {
                 .done();
         FFmpegExecutor executorThumbNail = new FFmpegExecutor(ffmpeg, ffprobe);
         executorThumbNail.createJob(builderThumbNail).run();
-    }
-
-    public void encode() throws IOException {
-        FFmpeg ffmpeg = new FFmpeg("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffmpeg");
-        FFprobe ffprobe = new FFprobe("D:\\libaraies\\ffmpeg-6.1-full_build\\bin\\ffprobe");
-
-        FFmpegBuilder builder = new FFmpegBuilder()
-            .setInput("D:\\GitRepository_HW\\web\\mix-voice\\backend\\server\\src\\main\\resources\\static\\offspring.wav")     // Filename, or a FFmpegProbeResult
-            .overrideOutputFiles(true) // Override the output if it exists
-            .addOutput("output.mp4")   // Filename for the destination
-            .setFormat("mp4")        // Format is inferred from filename, or can be set
-            .disableSubtitle()       // No subtiles
-            .setAudioChannels(1)         // Mono audio
-            .setAudioCodec("aac")        // using the aac codec
-            .setVideoCodec("libx264")     // Video using x264
-            .setVideoResolution(640, 480) // at 640x480 resolution
-            .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL).done(); // Allow FFmpeg to use experimental specs
-
-        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-
-        executor.createJob(builder).run();
-//        executor.createTwoPassJob(builder).run();
     }
 }
