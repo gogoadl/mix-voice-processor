@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 
 import { useTheme } from "@mui/material/styles";
 import { Stack, Typography, useMediaQuery } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
+import { CLOUDFRONT_URL } from "../../../services/constant";
 import axios from "../../../services/index";
 
 const getColor = (props) => {
@@ -37,9 +37,18 @@ const Container = styled.div`
   transition: border 0.24s ease-in-out;
 `;
 
-const StyledDropzone = (changeValue) => {
+const StyledDropzone = (props) => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
+  const [thumbnail, setThumbnail] = useState("");
+  const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    if (thumbnail.length !== 0) {
+      setPreview(<img className="preview" src={CLOUDFRONT_URL + thumbnail}></img>);
+      return () => {};
+    }
+  }, [thumbnail]);
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
     console.log(acceptedFiles);
@@ -55,40 +64,49 @@ const StyledDropzone = (changeValue) => {
     axios
       .post("http://localhost:9001/video/upload", formData, config)
       .then((response) => {
-        console.log(response);
-        changeValue("path");
+        let thumbnailUrl = JSON.stringify(response.data);
+        console.log(thumbnailUrl);
+        thumbnailUrl = thumbnailUrl.replace(/\"/gi, "");
+        console.log(thumbnailUrl);
+        setThumbnail(thumbnailUrl);
+        props.changeValue(thumbnailUrl);
       })
       .catch((e) => {
         console.log(e);
       });
   };
-  const { getRootProps, isFocused, isDragAccept, isDragReject, isDragActive } = useDropzone({
+  const { getRootProps, isfocused, isdragaccept, isdragreject, isDragActive } = useDropzone({
     accept: { "video/*": [] },
     onDrop: onDrop,
   });
-
-  return (
+  if (thumbnail.length === 0) {
+    return (
+      <div className="container">
+        <Container {...getRootProps({ isfocused, isdragaccept, isdragreject })}>
+          <Stack alignItems="center" justifyContent="center" spacing={1}>
+            <CloudUploadIcon fontSize="large" />
+            <br />
+            <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? "h3" : "h2"}>
+              업로드할 동영상 선택
+            </Typography>
+            <Typography variant="caption" fontSize="16px" textAlign="center">
+              또는 파일을 끌어서 놓기
+              <br />
+              MP4 또는 WebM
+              <br />
+              720X1280 해상도 이상
+              <br />
+              최대 1분
+            </Typography>
+          </Stack>
+        </Container>
+      </div>
+    );
+  } else {
     <div className="container">
-      <Container {...getRootProps({ isFocused, isDragAccept, isDragReject })}>
-        <Stack alignItems="center" justifyContent="center" spacing={1}>
-          <CloudUploadIcon fontSize="large" />
-          <br />
-          <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? "h3" : "h2"}>
-            업로드할 동영상 선택
-          </Typography>
-          <Typography variant="caption" fontSize="16px" textAlign="center">
-            또는 파일을 끌어서 놓기
-            <br />
-            MP4 또는 WebM
-            <br />
-            720X1280 해상도 이상
-            <br />
-            최대 1분
-          </Typography>
-        </Stack>
-      </Container>
-    </div>
-  );
+      <Container>{preview}</Container>
+    </div>;
+  }
 };
 
 export default StyledDropzone;

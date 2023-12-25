@@ -45,7 +45,7 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={12}>
-            <ShortsCard isLoading={isLoading} url={CLOUDFRONT_URL + shorts?.url + ".m3u8"} />
+            <ShortsCard isLoading={isLoading} url={CLOUDFRONT_URL + shorts?.url + "/master.m3u8"} />
           </Grid>
         </Grid>
       </Grid>

@@ -52,7 +52,7 @@ public class VideoService  {
         String tempFilePath = path + fileRandomName;
         file.transferTo(new File(tempFilePath));
         // 2. HLS 비디오로 변환
-        ffmpegProcessor.videoHlsMake(tempFilePath);
+        ffmpegProcessor.videoHlsMake(path, fileRandomName);
 
         // 3. 파일명 및 메타데이터 DB 저장 (저장 후 쇼츠 액세스 시 파일명과 cloudfront 주소 전달)
 
@@ -70,7 +70,7 @@ public class VideoService  {
         Files.delete(Paths.get(tempFilePath));
 
         // 6. 성공 또는 오류 처리
-        return fileRandomName + "/" + fileRandomName + ".png";
+        return fileRandomName;
     }
 
     // 임시 저장된 쇼츠 영상을 삭제

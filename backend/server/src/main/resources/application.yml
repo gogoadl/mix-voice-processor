@@ -24,3 +24,8 @@ logging:
       hibernate:
         SQL: debug
         type: trace #스프링 부트 2.x, hibernate5
+video:
+  path:
+    ffmpeg: 'D:\libaraies\ffmpeg-6.1-full_build\bin\ffmpeg'
+    ffprobe: 'D:\libaraies\ffmpeg-6.1-full_build\bin\ffprobe'
+
