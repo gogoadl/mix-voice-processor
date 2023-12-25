@@ -14,6 +14,8 @@ const userReducer = (state = initialState, action: any) => {
         userInfo: { ...action.data },
       };
     case actionTypes.LOGOUT_USER:
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
       return {
         ...state,
         userInfo: {},
