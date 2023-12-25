@@ -5,26 +5,18 @@ import { LOGIN_USER, LOGOUT_USER } from "../../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 // material-ui
 import { Grid } from "@mui/material";
-import getPost from "../../../services/post";
 // project imports
 import ShortsCard from "./ShortsCard";
-import EarningCard from "./EarningCard";
-import PopularCard from "./PopularCard";
-import TotalOrderLineChartCard from "./TotalOrderLineChartCard";
-import TotalIncomeDarkCard from "./TotalIncomeDarkCard";
-import TotalIncomeLightCard from "./TotalIncomeLightCard";
-import TotalGrowthBarChart from "./TotalGrowthBarChart";
 import { gridSpacing } from "../../../store/constant";
+import { CLOUDFRONT_URL } from "../../../services/constant";
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
-  const [src, setSrc] = useState();
+  const [shorts, setShorts] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    setLoading(false);
-
     console.log(localStorage.getItem("token"));
     if (localStorage.getItem("token")) {
       axios
@@ -37,6 +29,14 @@ const Dashboard = () => {
           console.log(error);
         });
     }
+    axios
+      .get("http://localhost:9001/shorts/")
+      .then((response) => {
+        console.log(response);
+        setShorts(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {});
   }, []);
 
   return (
@@ -45,10 +45,7 @@ const Dashboard = () => {
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={12}>
-            <ShortsCard
-              isLoading={isLoading}
-              url="https://djaikjbosji2f.cloudfront.net/99671416-0a52-4d72-aa3f-f821b09c013e/99671416-0a52-4d72-aa3f-f821b09c013e.m3u8"
-            />
+            <ShortsCard isLoading={isLoading} url={CLOUDFRONT_URL + shorts?.url + ".m3u8"} />
           </Grid>
         </Grid>
       </Grid>

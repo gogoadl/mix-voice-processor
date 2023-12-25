@@ -2,7 +2,6 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: "localhost:9001/",
-  timeout: 1000,
 });
 // 요청 인터셉터 추가하기
 instance.interceptors.request.use(
@@ -29,7 +28,7 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const { response, config } = error;
-    console.log(response.status);
+    console.log(response);
     if (response.status === 401) {
       console.log("token expired");
       const { data } = await axios.get("http://localhost:9001/token/refresh", {
