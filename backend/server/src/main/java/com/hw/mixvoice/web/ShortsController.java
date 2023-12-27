@@ -25,8 +25,13 @@ public class ShortsController {
 
     @GetMapping("/")
     public ResponseEntity getRandomShorts() {
+        Optional<Shorts> shorts = shortsService.getRandomShorts();
+        return ResponseEntity.ok().body(shorts);
+    }
 
-        Optional<Shorts> shorts = shortsService.getShorts();
+    @GetMapping("/{id}")
+    public ResponseEntity getShorts(@PathVariable String id) {
+        Optional<Shorts> shorts = shortsService.getShorts(id);
         return ResponseEntity.ok().body(shorts);
     }
 

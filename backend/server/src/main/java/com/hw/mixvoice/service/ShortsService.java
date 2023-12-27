@@ -16,8 +16,12 @@ public class ShortsService {
     @Autowired
     private ShortsRepository shortsRepository;
 
-    public Optional<Shorts> getShorts() {
+    public Optional<Shorts> getRandomShorts() {
         return shortsRepository.findRandomShorts();
+    }
+
+    public Optional<Shorts> getShorts(String url) {
+        return shortsRepository.findByUrl(url);
     }
     @Transactional
     public void uploadShorts(ShortsSaveDto shortsSaveDto) {
