@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../../../services/index";
 import { store } from "../../../store/index";
+import { useParams } from "react-router";
 import { LOGIN_USER, LOGOUT_USER } from "../../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 // material-ui
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
   const [shorts, setShorts] = useState(null);
   const dispatch = useDispatch();
+  const { id } = useParams();
   useEffect(() => {
     console.log(localStorage.getItem("token"));
     if (localStorage.getItem("token")) {
@@ -29,14 +31,27 @@ const Dashboard = () => {
           console.log(error);
         });
     }
-    axios
-      .get("http://localhost:9001/shorts/")
-      .then((response) => {
-        console.log(response);
-        setShorts(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {});
+    if (id !== undefined) {
+      axios
+        .get(`http://localhost:9001/shorts/${id}`)
+        .then((response) => {
+          console.log(response);
+          setShorts(response.data);
+          setLoading(false);
+          window.history.pushState("", "", `/shorts/${shorts.url}`);
+        })
+        .catch((error) => {});
+    } else {
+      axios
+        .get("http://localhost:9001/shorts/")
+        .then((response) => {
+          console.log(response);
+          setShorts(response.data);
+          setLoading(false);
+          window.history.pushState("", "localhost:3000", `/shorts/${shorts.url}`);
+        })
+        .catch((error) => {});
+    }
   }, []);
 
   return (

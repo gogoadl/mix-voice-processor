@@ -29,6 +29,10 @@ const MainRoutes = {
       element: <DashboardDefault />,
     },
     {
+      path: "/shorts/:id",
+      element: <DashboardDefault />,
+    },
+    {
       path: "/login/redirect",
       element: <Redirect />,
     },
