@@ -2,7 +2,9 @@
 
 # 개요
 
-동영상 쇼츠 플랫폼 + 음악인들의 리믹스 기능 제공하는 서비스 개발
+동영상 쇼츠 플랫폼 + 영상 리믹스 기능 제공 서비스 Mix-Voice
+인원 : 1인 개발
+1차 개발기간 : 2024.11.28 ~ 2024.12.25 (약 4주)
 
 # 개발 단계
 
@@ -12,12 +14,12 @@
 
 # 기술 스택
 
-Back-End : Spring Boot, Spring MVC …
+Back-End : Spring Boot, Spring Security, FFMPEG
 
-Front-End : React.js, typescript …
+Front-End : React.js
 
-Infra : Amazon EC2, Amazon RDS, Amazon S3 …
+Infra : Amazon EC2, Amazon RDS, Amazon S3
 
-CI/CD : Jenkins
+CI/CD : Jenkins (예정)
 
 SCM : Github
